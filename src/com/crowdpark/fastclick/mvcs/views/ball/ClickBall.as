@@ -2,21 +2,23 @@ package com.crowdpark.fastclick.mvcs.views.ball
 {
 	import com.crowdpark.fastclick.mvcs.events.FastClickEvent;
 	import com.crowdpark.fastclick.mvcs.interfaces.ITarget;
+
 	import flash.display.Sprite;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
-	import utils.number.randomIntegerWithinRange;
 
+	import utils.number.randomIntegerWithinRange;
 
 	/**
 	 * @author marcyohannes
 	 */
 	public class ClickBall extends Sprite implements ITarget
 	{
-		private var clickTimer:Timer;
-		
+		private var clickTimer : Timer;
+
 		public function ClickBall()
 		{
+			buttonMode = true;
 			draw();
 			startClickTimer();
 		}
@@ -28,11 +30,10 @@ package com.crowdpark.fastclick.mvcs.views.ball
 			clickTimer.start();
 		}
 
-		public function onTimeOver(event:TimerEvent) : void
+		public function onTimeOver(event : TimerEvent) : void
 		{
-			clickTimer.stop();
-			clickTimer.removeEventListener(TimerEvent.TIMER, onTimeOver);
-			dispatchEvent(new FastClickEvent(FastClickEvent.TIME_OVER, this));
+			stopClickTimer();
+			dispatchEvent(new FastClickEvent(FastClickEvent.TIME_OVER));
 		}
 
 		public function draw() : void

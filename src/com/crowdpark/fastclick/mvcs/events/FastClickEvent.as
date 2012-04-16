@@ -1,7 +1,7 @@
 package com.crowdpark.fastclick.mvcs.events
 {
-	import com.crowdpark.fastclick.mvcs.interfaces.ITarget;
 	import flash.events.Event;
+	import flash.utils.Timer;
 
 	/**
 	 * @author marcyohannes
@@ -10,22 +10,23 @@ package com.crowdpark.fastclick.mvcs.events
 	{
 		public static const CREATE_TARGETS : String = "com.crowdpark.fastclick.mvcs.events.FastClickEvent.CREATE_TARGETS";
 		public static const TIME_OVER : String = "com.crowdpark.fastclick.mvcs.events.FastClickEvent.TIME_OVER";
-		public static const ALL_TARGETS_CLICKED : String = "com.crowdpark.fastclick.mvcs.events.FastClickEvent.ALL_TARGETS_CLICKED";
-		
-		private var _clickTarget:ITarget;
-		
-		public function FastClickEvent(type : String, clickTarget:ITarget = null, bubbles : Boolean = false, cancelable : Boolean = false)
+		public static const POINTS_ADDED : String = "com.crowdpark.fastclick.mvcs.events.FastClickEvent.POINTS_ADDED";
+		public static const CLEAN_UP : String = "com.crowdpark.fastclick.mvcs.events.FastClickEvent.CLEAN_UP";
+		public static const CREATE_DISPLAY : String = "com.crowdpark.fastclick.mvcs.events.FastClickEvent.CREATE_DISPLAY";
+		public static const CREATE_ENDSCREEN : String = "com.crowdpark.fastclick.mvcs.events.FastClickEvent.CREATE_ENDSCREEN";
+		public static const UPDATE_TIME_DISPLAY : String = "com.crowdpark.fastclick.mvcs.events.FastClickEvent.UPDATE_TIME_DISPLAY";
+		public static const ENDBUTTON_CLICKED : String = "com.crowdpark.fastclick.mvcs.events.FastClickEvent.ENDBUTTON_CLICKED";
+		private var _gameTimeTimer : Timer;
+
+		public function FastClickEvent(type : String, aGameTimeTimer : Timer = null, bubbles : Boolean = false, cancelable : Boolean = false)
 		{
 			super(type, bubbles, cancelable);
-			
-			_clickTarget = clickTarget;
+			_gameTimeTimer = aGameTimeTimer;
 		}
 
-		public function get clickTarget() : ITarget
+		public function get gameTimeTimer() : Timer
 		{
-			return _clickTarget;
+			return _gameTimeTimer;
 		}
-		
-		
 	}
 }

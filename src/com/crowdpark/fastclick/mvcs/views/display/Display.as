@@ -1,18 +1,15 @@
 package com.crowdpark.fastclick.mvcs.views.display
 {
-	import com.bit101.components.Panel;
-	import com.bit101.components.PushButton;
-	import flash.text.TextField;
 	import flash.display.Sprite;
+	import flash.text.TextField;
 
 	/**
 	 * @author marcyohannes
 	 */
 	public class Display extends Sprite
 	{
-		private var _textField : TextField;
-		private var _startButton : PushButton;
-		private var _topPanel : Panel;
+		private var _scoreTextField : TextField;
+		private var _timerTextField : TextField;
 
 		public function Display()
 		{
@@ -21,22 +18,33 @@ package com.crowdpark.fastclick.mvcs.views.display
 
 		private function init() : void
 		{
-			_textField = new TextField();
-			_textField.text = "0";
-			addChild(_textField);
+			var scoreDescriptionTextField:TextField = new TextField();
+			scoreDescriptionTextField.text = "Score:";
+			addChild(scoreDescriptionTextField);
 			
-			_startButton = new PushButton();
-			_startButton.label = "Start";
-			this.addChild(_startButton);
+			_scoreTextField = new TextField();
+			_scoreTextField.text = "0";
+			_scoreTextField.x = 50;
+			addChild(_scoreTextField);
 			
-			_topPanel = new Panel();
-			_topPanel.x = 300;
-			this.addChild(_topPanel);
+			var timeDescriptionTextField:TextField = new TextField();
+			timeDescriptionTextField.text = "Time:";
+			timeDescriptionTextField.x = 250;
+			addChild(timeDescriptionTextField);
+			
+			_timerTextField = new TextField();
+			_timerTextField.x = 300;
+			addChild(_timerTextField);
 		}
 
-		public function set text(aText : String) : void
+		public function set scoreTextFieldText(aText : String) : void
 		{
-			_textField.text = aText;
+			_scoreTextField.text = aText;
+		}
+		
+		public function set timerTextFieldText(aText : String) : void
+		{
+			_timerTextField.text = aText;
 		}
 	}
 }

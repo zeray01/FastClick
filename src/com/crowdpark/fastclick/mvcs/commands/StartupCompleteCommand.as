@@ -1,9 +1,8 @@
 package com.crowdpark.fastclick.mvcs.commands
 {
-	import com.crowdpark.fastclick.mvcs.events.FastClickEvent;
-	import com.crowdpark.fastclick.mvcs.views.display.Display;
-	import org.robotlegs.mvcs.Command;
+	import com.crowdpark.fastclick.mvcs.views.startScreen.StartScreen;
 
+	import org.robotlegs.mvcs.Command;
 
 	/**
 	 * @author marcyohannes
@@ -12,8 +11,10 @@ package com.crowdpark.fastclick.mvcs.commands
 	{
 		override public function execute() : void
 		{
-			contextView.addChild(new Display());
-			dispatch(new FastClickEvent(FastClickEvent.CREATE_TARGETS));
+			var startScreen : StartScreen = new StartScreen();
+			startScreen.x = 220;
+			startScreen.y = 150;
+			contextView.addChild(startScreen);
 		}
 	}
 }

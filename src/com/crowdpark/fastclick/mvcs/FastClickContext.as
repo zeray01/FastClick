@@ -1,7 +1,8 @@
 package com.crowdpark.fastclick.mvcs
 {
-	import com.crowdpark.fastclick.mvcs.commands.AddPointsCommand;
 	import com.crowdpark.fastclick.mvcs.commands.CreateBallsCommand;
+	import com.crowdpark.fastclick.mvcs.commands.CreateDisplayCommand;
+	import com.crowdpark.fastclick.mvcs.commands.CreateEndScreenCommand;
 	import com.crowdpark.fastclick.mvcs.commands.StartupCompleteCommand;
 	import com.crowdpark.fastclick.mvcs.events.FastClickEvent;
 	import com.crowdpark.fastclick.mvcs.model.FastClickModel;
@@ -9,11 +10,16 @@ package com.crowdpark.fastclick.mvcs
 	import com.crowdpark.fastclick.mvcs.views.ball.ClickBallMediator;
 	import com.crowdpark.fastclick.mvcs.views.display.Display;
 	import com.crowdpark.fastclick.mvcs.views.display.DisplayMediator;
-	import flash.display.DisplayObjectContainer;
+	import com.crowdpark.fastclick.mvcs.views.endScreen.EndScreen;
+	import com.crowdpark.fastclick.mvcs.views.endScreen.EndScreenMediator;
+	import com.crowdpark.fastclick.mvcs.views.startScreen.StartScreen;
+	import com.crowdpark.fastclick.mvcs.views.startScreen.StartScreenMediator;
+	import com.crowdpark.net.rpc.json.JsonRpcClient;
+
 	import org.robotlegs.base.ContextEvent;
 	import org.robotlegs.mvcs.Context;
 
-
+	import flash.display.DisplayObjectContainer;
 
 	/**
 	 * @author marcyohannes
@@ -28,12 +34,18 @@ package com.crowdpark.fastclick.mvcs
 		override public function startup() : void
 		{
 			commandMap.mapEvent(ContextEvent.STARTUP_COMPLETE, StartupCompleteCommand);
+			commandMap.mapEvent(FastClickEvent.CREATE_DISPLAY, CreateDisplayCommand);
 			commandMap.mapEvent(FastClickEvent.CREATE_TARGETS, CreateBallsCommand);
-			commandMap.mapEvent(FastClickEvent.ALL_TARGETS_CLICKED, AddPointsCommand);
+			commandMap.mapEvent(FastClickEvent.CREATE_ENDSCREEN, CreateEndScreenCommand);
 
 			mediatorMap.mapView(ClickBall, ClickBallMediator);
 			mediatorMap.mapView(Display, DisplayMediator);
-
+			mediatorMap.mapView(StartScreen, StartScreenMediator);
+			mediatorMap.mapView(EndScreen, EndScreenMediator);
+			
+			
+			var jsonRpcClient:JsonRpcClient = new JsonRpcClient();
+			injector.mapValue(JsonRpcClient, jsonRpcClient);
 			injector.mapSingleton(FastClickModel);
 
 			super.startup();

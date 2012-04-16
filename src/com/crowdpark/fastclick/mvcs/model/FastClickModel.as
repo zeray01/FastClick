@@ -1,45 +1,48 @@
 package com.crowdpark.fastclick.mvcs.model
 {
 	import com.crowdpark.fastclick.mvcs.events.FastClickEvent;
-	import com.crowdpark.fastclick.mvcs.interfaces.ITarget;
-	import org.robotlegs.mvcs.Actor;
 
+	import org.robotlegs.mvcs.Actor;
 
 	/**
 	 * @author marcyohannes
 	 */
 	public class FastClickModel extends Actor
 	{
-		private var _objectVector : Vector.<ITarget>;
 		private var _maxBalls : uint;
 		private var _width : uint;
 		private var _height : uint;
 		private var _points : uint;
 		private var _score : uint;
+		private var _gametime : uint;
+		private var _highScoreVector : Vector.<uint>;
 
 		public function FastClickModel()
 		{
-			reset();
 			initValues();
 		}
 
 		private function initValues() : void
 		{
-			_maxBalls = 10;
+			_maxBalls = 4;
 			_width = 500;
 			_height = 350;
 			_points = 100;
 			_score = 0;
+			//_gametime = 5000;
+			_gametime = 10;
+			_highScoreVector = new Vector.<uint>;
 		}
 
 		public function addPoints() : void
 		{
 			_score += _points;
+			dispatch(new FastClickEvent(FastClickEvent.POINTS_ADDED));
 		}
 
-		public function reset() : void
+		public function resetScore() : void
 		{
-			_objectVector = new Vector.<ITarget>;
+			_score = 0;
 		}
 
 		public function get maxBalls() : uint
@@ -57,29 +60,41 @@ package com.crowdpark.fastclick.mvcs.model
 			return _height;
 		}
 
-		public function remove(object : ITarget) : void
-		{
-			_objectVector.splice(_objectVector.indexOf(object), 1);
-			if (_objectVector.length == 0)
-			{
-				dispatch(new FastClickEvent(FastClickEvent.ALL_TARGETS_CLICKED));
-				dispatch(new FastClickEvent(FastClickEvent.CREATE_TARGETS));
-			}
-		}
-
-		public function set add(object : ITarget) : void
-		{
-			_objectVector.push(object);
-		}
-
 		public function get score() : uint
 		{
 			return _score;
 		}
 
-		public function get length() : uint
+		public function addScoreToHighScoreList() : void
 		{
-			return _objectVector.length;
+			_highScoreVector.push(score);
+			_highScoreVector.sort(compare);
+		}
+
+		private function compare(x : uint, y : uint) : Number
+		{
+			if (x > y)
+			{
+				return -1;
+			}
+			else if (x < y)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+
+		public function get highScoreVector() : Vector.<uint>
+		{
+			return _highScoreVector;
+		}
+
+		public function get gametime() : uint
+		{
+			return _gametime;
 		}
 	}
 }
